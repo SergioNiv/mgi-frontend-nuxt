@@ -1,3 +1,37 @@
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from '~/stores/auth'
+import { isRequired } from '../../utils/validations'
+
+const toast = useToast()
+const authStore = useAuthStore()
+
+const { isLoading } = storeToRefs(authStore)
+
+const { login } = authStore
+
+const showPassword = ref(false)
+
+const state = reactive({
+  username: '',
+  password: '',
+  expiresInMins: 60,
+})
+
+const onSubmit = async () => {
+  const isFormValid = isRequired(state.username) && isRequired(state.password)
+  if (!isFormValid) {
+    toast.add({
+      title: 'Campos incompletos',
+      description: 'Ingresa usuario y contraseña',
+      color: 'warning',
+    })
+    return
+  }
+  await login(state)
+}
+</script>
+
 <template>
   <div
     class="w-full h-full flex flex-1 items-center justify-center font-primary text-secondary p-4 pt-20"
@@ -70,37 +104,3 @@
     </UCard>
   </div>
 </template>
-
-<script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useAuthStore } from '~/stores/auth'
-import { isRequired } from '../../utils/validations'
-
-const toast = useToast()
-const authStore = useAuthStore()
-
-const { isLoading } = storeToRefs(authStore)
-
-const { login } = authStore
-
-const showPassword = ref(false)
-
-const state = reactive({
-  username: '',
-  password: '',
-  expiresInMins: 60,
-})
-
-const onSubmit = async () => {
-  const isFormValid = isRequired(state.username) && isRequired(state.password)
-  if (!isFormValid) {
-    toast.add({
-      title: 'Campos incompletos',
-      description: 'Ingresa usuario y contraseña',
-      color: 'warning',
-    })
-    return
-  }
-  await login(state)
-}
-</script>

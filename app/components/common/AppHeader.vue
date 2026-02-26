@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from '~/stores/auth'
+
+const authStore = useAuthStore()
+
+const { token } = storeToRefs(authStore)
+
+const { logout } = authStore
+</script>
+
 <template>
   <header class="bg-secondary text-white-off shadow-md sticky top-0 z-50">
     <div
@@ -38,14 +49,3 @@
     </div>
   </header>
 </template>
-
-<script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useAuthStore } from '~/stores/auth'
-
-const authStore = useAuthStore()
-
-const { token } = storeToRefs(authStore)
-
-const { logout } = authStore
-</script>
