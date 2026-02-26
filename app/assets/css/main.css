@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&family=Orbitron:wght@400;500;700&family=Ubuntu:wght@400;500;700&display=swap');
+
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+@theme {
+  --color-primary: #fa9d38;
+  --color-secondary: #252c36;
+  --color-tertiary: #6c757d;
+  --color-white-off: #f1f1f1;
+
+  --font-display: 'Orbitron', sans-serif;
+  --font-primary: 'Open Sans', sans-serif;
+  --font-secondary: 'Ubuntu', sans-serif;
+
+  --breakpoint-xs: 400px;
+}
+
+@utility card-hover {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  &:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+}
