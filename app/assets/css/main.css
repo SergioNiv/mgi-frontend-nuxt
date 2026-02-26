@@ -13,7 +13,7 @@
   --font-primary: 'Open Sans', sans-serif;
   --font-secondary: 'Ubuntu', sans-serif;
 
-  --breakpoint-xs: 400px;
+  --breakpoint-xs: 450px;
 }
 
 @utility card-hover {

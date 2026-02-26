@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { User } from '../../types/index'
+import type { User } from '~~/types'
 import type { FetchError } from 'ofetch'
 
 interface LoginCredentials {

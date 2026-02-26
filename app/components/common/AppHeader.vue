@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-secondary text-white-off shadow-md">
+  <header class="bg-secondary text-white-off shadow-md sticky top-0 z-50">
     <div
       class="px-4 py-3 flex justify-between items-center max-w-7xl mx-auto w-full"
     >

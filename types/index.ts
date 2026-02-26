@@ -11,7 +11,12 @@ export interface User {
 }
 
 export interface Product {
-  id: string | number
-  name: string
+  id: number
+  title: string
+  category: string
+  description: string
   price: number
+  stock: number
+  thumbnail: string
+  images: string[]
 }

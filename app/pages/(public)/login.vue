@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center bg-white-off font-primary text-secondary p-4"
+    class="w-full h-full flex flex-1 items-center justify-center font-primary text-secondary p-4 pt-20"
   >
     <UCard class="w-full max-w-md shadow-xl bg-secondary">
       <template #header>
