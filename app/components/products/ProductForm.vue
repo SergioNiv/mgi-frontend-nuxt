@@ -22,7 +22,8 @@ const state = reactive({
   price: props.initialData.price || 0,
   stock: props.initialData.stock || 0,
   description: props.initialData.description || '',
-  availabilityStatus: props.initialData.availabilityStatus || PRODUCT_STATUS.IN_STOCK,
+  availabilityStatus:
+    props.initialData.availabilityStatus || PRODUCT_STATUS.IN_STOCK,
   existingImageUrl: props.initialData.thumbnail || '',
   newImage: undefined as File | undefined,
 })

@@ -28,7 +28,9 @@ const onSubmit = () => {
   <UCard class="w-full max-w-md shadow-xl bg-secondary">
     <template #header>
       <div class="text-center">
-        <h1 class="text-2xl font-bold font-display text-white-off tracking-wide">
+        <h1
+          class="text-2xl font-bold font-display text-white-off tracking-wide"
+        >
           {{ APP_NAME }}
         </h1>
         <p class="text-white-off font-secondary text-sm mt-1">

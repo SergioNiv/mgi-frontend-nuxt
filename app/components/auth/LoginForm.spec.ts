@@ -23,7 +23,9 @@ describe('LoginForm - Logic Validation', () => {
     const errors = validateLoginForm(state)
 
     expect(errors).toContainEqual(expect.objectContaining({ name: 'password' }))
-    expect(errors).not.toContainEqual(expect.objectContaining({ name: 'username' }))
+    expect(errors).not.toContainEqual(
+      expect.objectContaining({ name: 'username' })
+    )
   })
 
   it('debería pasar la validación con credenciales completas', () => {

@@ -1,17 +1,20 @@
 import type { FormError } from '@nuxt/ui'
 import type { Product } from '~~/types'
 
-export const validateLoginForm = (state: { username?: string; password?: string }): FormError[] => {
+export const validateLoginForm = (state: {
+  username?: string
+  password?: string
+}): FormError[] => {
   const errors: FormError[] = []
-  
+
   if (!state.username) {
     errors.push({ name: 'username', message: 'El usuario es obligatorio' })
   }
-  
+
   if (!state.password) {
     errors.push({ name: 'password', message: 'La contraseña es obligatoria' })
   }
-  
+
   return errors
 }
 
