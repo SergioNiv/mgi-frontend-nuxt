@@ -3,12 +3,13 @@ import type { Product } from '~~/types'
 
 const route = useRoute()
 const mainImage = ref('')
+const productId = route.params.id as string
 
-const { data: product, status } = await useFetch<Product>(
-  `https://dummyjson.com/products/${route.params.id}`,
-  {
-    key: `product-${route.params.id}`,
-  }
+const { $api } = useNuxtApp()
+
+const { data: product, status } = await useAsyncData<Product>(
+  `product-${productId}`,
+  () => $api.products.getProductById(productId)
 )
 
 if (!product.value) {
@@ -30,9 +31,9 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 
-const getStatusColor = (status: string) => {
-  if (status === 'In Stock') return 'text-success'
-  if (status === 'Low Stock') return 'text-warning'
+const getStatusColor = (availability: string) => {
+  if (availability === 'In Stock') return 'text-success'
+  if (availability === 'Low Stock') return 'text-warning'
   return 'text-error'
 }
 

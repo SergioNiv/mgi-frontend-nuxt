@@ -1,17 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { User } from '~~/types'
+import type { User, LoginCredentials } from '~~/types'
 import type { FetchError } from 'ofetch'
-
-interface LoginCredentials {
-  username: string
-  password: string
-  expiresInMins?: number
-}
 
 interface ApiErrorResponse {
   message?: string
 }
+
 export const useAuthStore = defineStore(
   'auth',
   () => {
@@ -34,13 +29,9 @@ export const useAuthStore = defineStore(
       error.value = null
 
       try {
-        const response = await $fetch<User>(
-          'https://dummyjson.com/auth/login',
-          {
-            method: 'POST',
-            body: credentials,
-          }
-        )
+        const { $api } = useNuxtApp()
+
+        const response = await $api.auth.login(credentials)
 
         if (response && response.accessToken) {
           token.value = response.accessToken

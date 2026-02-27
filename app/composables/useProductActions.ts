@@ -6,6 +6,7 @@ interface TableRow {
 
 export const useProductActions = (products: Ref<Product[]>) => {
   const toast = useToast()
+  const { $api } = useNuxtApp()
 
   const isDeleteModalOpen = ref(false)
   const productToDelete = ref<Product | null>(null)
@@ -22,31 +23,18 @@ export const useProductActions = (products: Ref<Product[]>) => {
     isDeleting.value = true
 
     try {
-      const response = await fetch(
-        `https://dummyjson.com/products/${productToDelete.value.id}`,
-        {
-          method: 'DELETE',
-        }
+      await $api.products.deleteProduct(productToDelete.value.id)
+
+      products.value = products.value.filter(
+        (product) => product.id !== productToDelete.value?.id
       )
 
-      if (response.status === 200) {
-        products.value = products.value.filter(
-          (product) => product.id !== productToDelete.value?.id
-        )
-        toast.add({
-          title: 'Producto eliminado',
-          description: `Se eliminó "${productToDelete.value.title}" correctamente.`,
-          color: 'success',
-          icon: 'i-heroicons-check-circle',
-        })
-      } else {
-        toast.add({
-          title: 'Error',
-          description: 'No se pudo eliminar el producto.',
-          color: 'error',
-          icon: 'i-heroicons-x-circle',
-        })
-      }
+      toast.add({
+        title: 'Producto eliminado',
+        description: `Se eliminó "${productToDelete.value.title}" correctamente.`,
+        color: 'success',
+        icon: 'i-heroicons-check-circle',
+      })
     } catch (error) {
       console.error('Error al eliminar:', error)
       toast.add({

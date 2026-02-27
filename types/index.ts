@@ -64,3 +64,9 @@ export type ButtonColor =
   | 'error'
   | 'info'
   | 'neutral'
+
+export interface LoginCredentials {
+  username: string
+  password: string
+  expiresInMins?: number
+}

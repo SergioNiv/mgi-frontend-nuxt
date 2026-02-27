@@ -23,4 +23,9 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { redirect: '/products' },
   },
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: 'https://dummyjson.com',
+    },
+  },
 })

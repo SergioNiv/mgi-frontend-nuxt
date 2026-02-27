@@ -16,27 +16,13 @@ export const useProductsStore = defineStore('products', () => {
     const skip = (page - 1) * limit
 
     try {
-      const endpoint = searchQuery
-        ? 'https://dummyjson.com/products/search'
-        : 'https://dummyjson.com/products'
-      const token = useCookie('auth_token').value
+      const { $api } = useNuxtApp()
 
-      const response = await $fetch<{ products: Product[]; total: number }>(
-        endpoint,
-        {
-          method: 'GET',
-          query: {
-            skip,
-            limit,
-            q: searchQuery || undefined,
-          },
-          headers: token
-            ? {
-                Authorization: `Bearer ${token}`,
-              }
-            : {},
-        }
-      )
+      const response = await $api.products.getProducts({
+        limit,
+        skip,
+        q: searchQuery || undefined,
+      })
 
       products.value = response.products
       total.value = response.total

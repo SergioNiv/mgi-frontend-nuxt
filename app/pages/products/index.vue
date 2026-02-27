@@ -135,7 +135,6 @@ const onSearch = () => {
 }
 
 watch(currentPage, () => {
-  console.log('Cambiando página', currentPage.value)
   loadData()
 })
 

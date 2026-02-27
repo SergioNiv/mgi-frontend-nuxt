@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Product } from '~~/types'
-
+const { $api } = useNuxtApp()
 const toast = useToast()
 const isSaving = ref(false)
 
@@ -8,10 +8,7 @@ const handleCreate = async (formData: Product) => {
   isSaving.value = true
 
   try {
-    const response = await $fetch('https://dummyjson.com/products/add', {
-      method: 'POST',
-      body: formData,
-    })
+    const response = await $api.products.createProduct(formData)
 
     console.log('Producto creado:', response)
 

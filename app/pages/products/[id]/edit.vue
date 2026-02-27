@@ -5,25 +5,23 @@ const route = useRoute()
 const toast = useToast()
 const isSaving = ref(false)
 
-const productId = route.params.id
+const productId = route.params.id as string
+
+const { $api } = useNuxtApp()
 
 const {
   data: product,
   pending,
   error,
-} = await useFetch<Product>(`https://dummyjson.com/products/${productId}`)
+} = await useAsyncData<Product>(`product-${productId}`, () =>
+  $api.products.getProductById(productId)
+)
 
 const handleUpdate = async (formData: Product) => {
   isSaving.value = true
 
   try {
-    const response = await $fetch(
-      `https://dummyjson.com/products/${productId}`,
-      {
-        method: 'PUT',
-        body: formData,
-      }
-    )
+    const response = await $api.products.updateProduct(productId, formData)
 
     console.log('Producto actualizado:', response)
 
@@ -78,7 +76,7 @@ const handleUpdate = async (formData: Product) => {
 
     <UCard v-else :ui="{ body: 'bg-secondary' }">
       <ProductsProductForm
-        :initial-data="product"
+        :initial-data="product || undefined"
         :is-loading="isSaving"
         @submit="handleUpdate"
       />
