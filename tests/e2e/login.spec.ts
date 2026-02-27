@@ -4,7 +4,7 @@ test.describe('Autenticación de Usuario', () => {
   test('debería permitir al usuario iniciar sesión y ver sus datos', async ({
     page,
   }) => {
-    await page.goto('http://localhost:3000/login', { waitUntil: 'networkidle' })
+    await page.goto('/login', { waitUntil: 'networkidle' })
 
     await page.fill('input[name="username"]', 'emilys')
     await page.fill('input[name="password"]', 'emilyspass')
