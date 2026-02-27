@@ -67,7 +67,7 @@ export const useProductActions = (products: Ref<Product[]>) => {
   }
 
   const editProduct = (row: TableRow) => {
-    console.log('Navegar a edición del producto:', row.original.id)
+    navigateTo(`/products/${row.original.id}/edit`)
   }
 
   return {

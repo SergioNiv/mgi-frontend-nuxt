@@ -181,14 +181,26 @@ const {
         </p>
       </div>
 
-      <UInput
-        v-model="searchQuery"
-        icon="i-heroicons-magnifying-glass"
-        placeholder="Buscar productos..."
-        class="w-full md:max-w-100"
-        :ui="{ base: 'bg-secondary py-3' }"
-        @update:model-value="onSearch"
-      />
+      <div class="flex gap-2 flex-col md:flex-row">
+        <UButton
+          color="neutral"
+          variant="solid"
+          icon="i-heroicons-plus"
+          class="md:min-w-50 py-3"
+          @click="navigateTo('/products/new')"
+        >
+          Crear nuevo producto
+        </UButton>
+
+        <UInput
+          v-model="searchQuery"
+          icon="i-heroicons-magnifying-glass"
+          placeholder="Buscar productos..."
+          class="w-full lg:min-w-100"
+          :ui="{ base: 'bg-secondary py-3' }"
+          @update:model-value="onSearch"
+        />
+      </div>
     </div>
 
     <UCard :ui="{ body: 'p-0 bg-secondary', footer: 'bg-secondary' }">
@@ -266,7 +278,7 @@ const {
     <CommonAppConfirmModal
       v-model="isDeleteModalOpen"
       title="Confirmar Eliminación"
-      :message="`¿Estás seguro de que deseas eliminar el producto <strong class='text-primary'>${productToDelete?.title}</strong>? Esta acción no se puede deshacer.`"
+      :message="`¿Estás seguro de que deseas eliminar el producto <strong class='text-primary'>${productToDelete?.title || ''}</strong>? Esta acción no se puede deshacer.`"
       confirm-text="Sí, eliminar"
       confirm-icon="i-heroicons-trash"
       confirm-color="error"

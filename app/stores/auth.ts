@@ -12,94 +12,86 @@ interface LoginCredentials {
 interface ApiErrorResponse {
   message?: string
 }
-export const useAuthStore = defineStore('auth', () => {
-  const tokenCookie = useCookie<string | null>('auth_token', {
-    maxAge: 60 * 60 * 24,
-    path: '/',
-  })
+export const useAuthStore = defineStore(
+  'auth',
+  () => {
+    const tokenCookie = useCookie<string | null>('auth_token', {
+      maxAge: 60 * 60 * 24,
+      path: '/',
+    })
 
-  const token = ref<string | null>(tokenCookie.value || null)
-  const user = ref<User | null>(null)
+    const token = ref<string | null>(tokenCookie.value || null)
+    const user = ref<User | null>(null)
 
-  if (import.meta.client) {
-    const storedUser = localStorage.getItem('auth_user')
-    if (storedUser) {
+    const isLoading = ref(false)
+    const error = ref<string | null>(null)
+
+    const router = useRouter()
+    const toast = useToast()
+
+    const login = async (credentials: LoginCredentials) => {
+      isLoading.value = true
+      error.value = null
+
       try {
-        user.value = JSON.parse(storedUser)
-      } catch {
-        localStorage.removeItem('auth_user')
-      }
-    }
-  }
+        const response = await $fetch<User>(
+          'https://dummyjson.com/auth/login',
+          {
+            method: 'POST',
+            body: credentials,
+          }
+        )
 
-  const isLoading = ref(false)
-  const error = ref<string | null>(null)
+        if (response && response.accessToken) {
+          token.value = response.accessToken
+          user.value = response
+          tokenCookie.value = response.accessToken
 
-  const router = useRouter()
-  const toast = useToast()
+          toast.add({
+            title: '¡Autenticación exitosa!',
+            description: `Bienvenido de nuevo, ${response.firstName}`,
+            color: 'success',
+          })
 
-  const login = async (credentials: LoginCredentials) => {
-    isLoading.value = true
-    error.value = null
-
-    try {
-      const response = await $fetch<User>('https://dummyjson.com/auth/login', {
-        method: 'POST',
-        body: credentials,
-      })
-
-      if (response && response.accessToken) {
-        token.value = response.accessToken
-        user.value = response
-
-        tokenCookie.value = response.accessToken
-
-        if (import.meta.client) {
-          localStorage.setItem('auth_user', JSON.stringify(response))
+          await router.push('/products')
         }
+      } catch (err: unknown) {
+        const e = err as FetchError<ApiErrorResponse>
+
+        error.value = e.data?.message || 'Error al iniciar sesión'
 
         toast.add({
-          title: '¡Autenticación exitosa!',
-          description: `Bienvenido de nuevo, ${response.firstName}`,
-          color: 'success',
+          title: 'Error de acceso',
+          description: error.value || 'Revisa tus credenciales',
+          color: 'error',
         })
-
-        await router.push('/products')
+      } finally {
+        isLoading.value = false
       }
-    } catch (err: unknown) {
-      const e = err as FetchError<ApiErrorResponse>
-
-      error.value = e.data?.message || 'Error al iniciar sesión'
-
-      toast.add({
-        title: 'Error de acceso',
-        description: error.value || 'Revisa tus credenciales',
-        color: 'error',
-      })
-    } finally {
-      isLoading.value = false
-    }
-  }
-
-  const logout = () => {
-    token.value = null
-    user.value = null
-
-    tokenCookie.value = null
-
-    if (import.meta.client) {
-      localStorage.removeItem('auth_user')
     }
 
-    router.push('/login')
-  }
+    const logout = () => {
+      token.value = null
+      user.value = null
+      tokenCookie.value = null
 
-  return {
-    token,
-    user,
-    isLoading,
-    error,
-    login,
-    logout,
+      router.push('/login')
+    }
+
+    return {
+      token,
+      user,
+      isLoading,
+      error,
+      login,
+      logout,
+    }
+  },
+  {
+    persist: {
+      storage: piniaPluginPersistedstate.localStorage(),
+      key: 'auth_user',
+      pick: ['user'],
+    },
   }
-})
+)
