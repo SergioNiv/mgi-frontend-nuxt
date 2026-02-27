@@ -2,12 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: [
-    '@nuxt/ui',
-    '@nuxt/eslint',
-    '@pinia/nuxt',
-    '@nuxt/image',
-  ],
+  modules: ['@nuxt/ui', '@nuxt/eslint', '@pinia/nuxt', '@nuxt/image'],
   css: ['~/assets/css/main.css'],
   pinia: {
     storesDirs: ['app/stores/**'],
@@ -20,6 +15,6 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    '/': { redirect: '/products' }
-  }
+    '/': { redirect: '/products' },
+  },
 })

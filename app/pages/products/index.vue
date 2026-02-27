@@ -112,7 +112,7 @@ const columns: TableColumn<Product>[] = [
       },
     },
   },
-  { accessorKey: 'actions', header: 'Ver' },
+  { accessorKey: 'actions', header: 'Acciones' },
 ]
 
 const loadData = async () => {
@@ -145,16 +145,26 @@ onMounted(() => {
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'In Stock': return 'success'
-    case 'Low Stock': return 'warning'
-    case 'Out of Stock': return 'error'
-    default: return 'neutral'
+    case 'In Stock':
+      return 'success'
+    case 'Low Stock':
+      return 'warning'
+    case 'Out of Stock':
+      return 'error'
+    default:
+      return 'neutral'
   }
 }
 
-const viewDetails = (row: any) => {
-  navigateTo(`/products/${row.original.id}`)
-}
+const {
+  isDeleteModalOpen,
+  productToDelete,
+  isDeleting,
+  promptDelete,
+  executeDelete,
+  viewDetails,
+  editProduct,
+} = useProductActions(products)
 </script>
 
 <template>
@@ -175,9 +185,9 @@ const viewDetails = (row: any) => {
         v-model="searchQuery"
         icon="i-heroicons-magnifying-glass"
         placeholder="Buscar productos..."
-        @update:model-value="onSearch"
         class="w-full md:max-w-100"
         :ui="{ base: 'bg-secondary py-3' }"
+        @update:model-value="onSearch"
       />
     </div>
 
@@ -228,12 +238,11 @@ const viewDetails = (row: any) => {
         </template>
 
         <template #actions-cell="{ row }">
-          <UButton
-            icon="i-heroicons-eye"
-            size="xs"
-            variant="ghost"
-            color="neutral"
-            @click="viewDetails(row)"
+          <ProductsActionsTable
+            :row="row"
+            @view="viewDetails"
+            @edit="editProduct"
+            @delete="promptDelete"
           />
         </template>
       </UTable>
@@ -254,5 +263,15 @@ const viewDetails = (row: any) => {
         </div>
       </template>
     </UCard>
+    <CommonAppConfirmModal
+      v-model="isDeleteModalOpen"
+      title="Confirmar Eliminación"
+      :message="`¿Estás seguro de que deseas eliminar el producto <strong class='text-primary'>${productToDelete?.title}</strong>? Esta acción no se puede deshacer.`"
+      confirm-text="Sí, eliminar"
+      confirm-icon="i-heroicons-trash"
+      confirm-color="error"
+      :loading="isDeleting"
+      @confirm="executeDelete"
+    />
   </div>
 </template>

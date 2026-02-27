@@ -55,3 +55,12 @@ export interface ProductMeta {
   barcode: string
   qrCode: string
 }
+
+export type ButtonColor =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'info'
+  | 'neutral'
