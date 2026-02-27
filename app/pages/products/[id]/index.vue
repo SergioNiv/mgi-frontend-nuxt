@@ -32,8 +32,8 @@ useSeoMeta({
 })
 
 const getStatusColor = (availability: string) => {
-  if (availability === 'In Stock') return 'text-success'
-  if (availability === 'Low Stock') return 'text-warning'
+  if (availability === PRODUCT_STATUS.IN_STOCK) return 'text-success'
+  if (availability === PRODUCT_STATUS.LOW_STOCK) return 'text-warning'
   return 'text-error'
 }
 

@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import type { FormError } from '@nuxt/ui'
+import { validateProductForm } from '~/utils/validations'
 import type { Product } from '~~/types'
-
-type FormState = typeof state
+import { PRODUCT_STATUS } from '~/utils/constants'
 
 const props = defineProps({
   initialData: {
@@ -23,7 +22,7 @@ const state = reactive({
   price: props.initialData.price || 0,
   stock: props.initialData.stock || 0,
   description: props.initialData.description || '',
-  availabilityStatus: props.initialData.availabilityStatus || 'In Stock',
+  availabilityStatus: props.initialData.availabilityStatus || PRODUCT_STATUS.IN_STOCK,
   existingImageUrl: props.initialData.thumbnail || '',
   newImage: undefined as File | undefined,
 })
@@ -36,40 +35,12 @@ const previewImage = computed(() => {
   return null
 })
 
-const statusOptions = ['In Stock', 'Low Stock', 'Out of Stock']
-
-const validate = (state: FormState): FormError[] => {
-  const errors: FormError[] = []
-
-  if (!state.title) {
-    errors.push({ name: 'title', message: 'El nombre es obligatorio' })
-  }
-
-  if (!state.category) {
-    errors.push({ name: 'category', message: 'La categoría es obligatoria' })
-  }
-
-  if (Number(state.price) <= 0) {
-    errors.push({ name: 'price', message: 'El precio debe ser mayor a 0' })
-  }
-
-  if (Number(state.stock) < 0) {
-    errors.push({ name: 'stock', message: 'El stock no puede ser negativo' })
-  }
-
-  if (!state.description) {
-    errors.push({
-      name: 'description',
-      message: 'La descripción es obligatoria',
-    })
-  }
-
-  return errors
-}
+const statusOptions = Object.values(PRODUCT_STATUS)
 
 const onSubmit = async () => {
   emit('submit', state)
 }
+const validate = (state: Product) => validateProductForm(state)
 </script>
 
 <template>

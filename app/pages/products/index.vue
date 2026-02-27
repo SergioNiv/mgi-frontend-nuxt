@@ -4,13 +4,14 @@ import { useProductsStore } from '~/stores/products'
 import type { TableColumn } from '@nuxt/ui'
 import type { Product } from '~~/types'
 import { resolveComponent } from 'vue'
+import { DEFAULT_PAGINATION_LIMIT } from '~/utils/constants'
 
 const productsStore = useProductsStore()
 const { products, total, isLoading } = storeToRefs(productsStore)
 
 const searchQuery = ref('')
 const currentPage = ref(1)
-const itemsPerPage = 10
+const itemsPerPage = DEFAULT_PAGINATION_LIMIT
 
 const columns: TableColumn<Product>[] = [
   {

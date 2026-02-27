@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { User, LoginCredentials } from '~~/types'
 import type { FetchError } from 'ofetch'
+import { SESSION_EXPIRES_IN_SECONDS } from '~/utils/constants'
 
 interface ApiErrorResponse {
   message?: string
@@ -11,7 +12,7 @@ export const useAuthStore = defineStore(
   'auth',
   () => {
     const tokenCookie = useCookie<string | null>('auth_token', {
-      maxAge: 60 * 60 * 24,
+      maxAge: SESSION_EXPIRES_IN_SECONDS,
       path: '/',
     })
 
