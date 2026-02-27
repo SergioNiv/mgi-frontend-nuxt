@@ -1,6 +1,8 @@
 # 🚀 MGi Sistema de Gestión - Frontend Test
 
-Este repositorio contiene la solución a la prueba técnica para el puesto de Frontend Developer. Está construido utilizando **Nuxt 4**, **Vue 3**, **Pinia**, y **Tailwind CSS** (vía Nuxt UI), aplicando principios de Clean Architecture para garantizar escalabilidad y mantenibilidad.
+> 🔗 **Demo en vivo:** [https://mgi-frontend-nuxt.vercel.app](https://mgi-frontend-nuxt.vercel.app)
+
+Este repositorio contiene la solución a la prueba técnica para el puesto de Frontend Developer. Está construido utilizando **Nuxt 4**, **Vue 3**, **Pinia**, y **Tailwind CSS**, aplicando principios de Clean Architecture para garantizar escalabilidad y mantenibilidad.
 
 ---
 
@@ -112,6 +114,7 @@ Se priorizó el valor sobre el volumen, aplicando pruebas en las dos capas más 
 
 ---
 
+```bash
 ## ⚙️ Pasos de ejecución
 
 Sigue estos pasos para levantar el entorno de desarrollo localmente:
@@ -154,7 +157,4 @@ Asegúrate de instalar los navegadores de Playwright la primera vez:
 
 npx playwright install
 pnpm run test:e2e
-
-```bash
-
 ```
